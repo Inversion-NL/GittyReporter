@@ -9,20 +9,18 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 
 import org.eclipse.egit.github.core.Issue;
-import org.eclipse.egit.github.core.Label;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.IssueService;
 
 import java.io.IOException;
-import java.util.List;
 
 public class reportIssue extends AsyncTask<String, Integer, String> {
 
-    Context mContext;
-    GittyReporter mActivity;
-    ProgressDialog progress;
+    private Context mContext;
+    private GittyReporter mActivity;
+    private ProgressDialog progress;
 
-    public reportIssue (Context context, GittyReporter activity){
+    reportIssue(Context context, GittyReporter activity){
         mContext = context;
         mActivity = activity;
     }
@@ -31,8 +29,8 @@ public class reportIssue extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progress = ProgressDialog.show(mContext, "Please wait",
-                "Uploading report on GitHub", true);
+        progress = ProgressDialog.show(mContext, mContext.getResources().getString(R.string.dialog_progress_pleaseWait_title),
+                mContext.getString(R.string.dialog_progress_pleaseWait_message), true);
     }
 
     // This is run in a background thread
@@ -57,9 +55,10 @@ public class reportIssue extends AsyncTask<String, Integer, String> {
             service = new IssueService(new GitHubClient().setCredentials(user, password));
         }
 
-        Issue issue = new Issue().setTitle(bugTitle).setBody(bugDescription + "\n\n" + deviceInfo + "\n\nExtra Info: " + extraInfo);
+        Issue issue = new Issue().setTitle(bugTitle).setBody(bugDescription + "\n\n" + deviceInfo + mContext.getString(R.string.issue_extraInfo) + extraInfo);
         try {
-            issue = service.createIssue(targetUser, targetRepository, issue);
+            service.createIssue(targetUser, targetRepository, issue);
+            //noinspection HardCodedStringLiteral
             return "ok";
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,37 +76,44 @@ public class reportIssue extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        if (result.equals("ok")) {
-            progress.dismiss();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mActivity.showDoneAnimation();
-            } else {
-                ((Activity) mContext).finish();
-            }
-        } else if (result.equals("org.eclipse.egit.github.core.client.RequestException: Bad credentials (401)")){
-            progress.dismiss();
-            new AlertDialog.Builder(mContext)
-                    .setTitle("Unable to send report")
-                    .setMessage("Wrong username or password or invalid access token.")
-                    .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    })
-                    .setIcon(R.drawable.gittyreporter_ic_mood_bad_black_24dp)
-                    .show();
-        } else {
-            progress.dismiss();
-            new AlertDialog.Builder(mContext)
-                    .setTitle("Unable to send report")
-                    .setMessage("An unexpected error occurred. If the problem persists, contact the app developer.")
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            ((Activity)mContext).finish();
-                        }
-                    })
-                    .setIcon(R.drawable.gittyreporter_ic_mood_bad_black_24dp)
-                    .show();
+        //noinspection HardCodedStringLiteral
+        switch (result) {
+            //noinspection HardCodedStringLiteral
+            case "ok":
+                progress.dismiss();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mActivity.showDoneAnimation();
+                } else {
+                    ((Activity) mContext).finish();
+                }
+                break;
+            //noinspection HardCodedStringLiteral
+            case "org.eclipse.egit.github.core.client.RequestException: Bad credentials (401)":
+                progress.dismiss();
+                new AlertDialog.Builder(mContext)
+                        .setTitle(mContext.getResources().getString(R.string.report_unableToSendReport_title))
+                        .setMessage(mContext.getResources().getString(R.string.report_unableToSendReport_messageBadCredentials))
+                        .setPositiveButton(mContext.getResources().getString(R.string.report_unableToSendReport_button_tryAgain), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(R.drawable.gittyreporter_ic_mood_bad_black_24dp)
+                        .show();
+                break;
+            default:
+                progress.dismiss();
+                new AlertDialog.Builder(mContext)
+                        .setTitle(mContext.getResources().getString(R.string.report_unableToSendReport_title))
+                        .setMessage(R.string.report_unableToSendReport_messageUnexpectedError)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                ((Activity) mContext).finish();
+                            }
+                        })
+                        .setIcon(R.drawable.gittyreporter_ic_mood_bad_black_24dp)
+                        .show();
+                break;
         }
     }
 }

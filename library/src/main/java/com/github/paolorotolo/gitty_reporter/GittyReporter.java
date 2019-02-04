@@ -1,45 +1,29 @@
 package com.github.paolorotolo.gitty_reporter;
 
 import android.animation.Animator;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.eclipse.egit.github.core.Issue;
-import org.eclipse.egit.github.core.Repository;
-import org.eclipse.egit.github.core.client.GitHubClient;
-import org.eclipse.egit.github.core.service.IssueService;
-import org.eclipse.egit.github.core.service.RepositoryService;
-
-import java.io.IOException;
 
 public abstract class GittyReporter extends AppCompatActivity {
 
@@ -62,7 +46,7 @@ public abstract class GittyReporter extends AppCompatActivity {
         setContentView(R.layout.gitty_reporter_layout);
 
         // Get Device info and print them in EditText
-        deviceInfoEditText = (EditText) findViewById(R.id.gittyreporter_device_info);
+        deviceInfoEditText = findViewById(R.id.gittyreporter_device_info);
         getDeviceInfo();
         deviceInfoEditText.setText(deviceInfo);
 
@@ -76,11 +60,11 @@ public abstract class GittyReporter extends AppCompatActivity {
             sendFab.setVisibility(View.VISIBLE);
         }
 
-        AppCompatCheckBox githubCheckbox = (AppCompatCheckBox) findViewById(R.id.gittyreporter_github_checkbox);
-        AppCompatButton registerButton = (AppCompatButton) findViewById(R.id.gittyreporter_github_register);
+        AppCompatCheckBox githubCheckbox = findViewById(R.id.gittyreporter_github_checkbox);
+        AppCompatButton registerButton = findViewById(R.id.gittyreporter_github_register);
 
-        final EditText userName = (EditText) findViewById(R.id.gittyreporter_login_username);
-        final EditText userPassword = (EditText) findViewById(R.id.gittyreporter_login_password);
+        final EditText userName = findViewById(R.id.gittyreporter_login_username);
+        final EditText userPassword = findViewById(R.id.gittyreporter_login_password);
 
         userPassword.setTypeface(Typeface.DEFAULT);
         userPassword.setTransformationMethod(new PasswordTransformationMethod());
@@ -111,9 +95,9 @@ public abstract class GittyReporter extends AppCompatActivity {
 
     public void reportIssue (View v) {
         if (enableGitHubLogin) {
-            final AppCompatCheckBox githubCheckbox = (AppCompatCheckBox) findViewById(R.id.gittyreporter_github_checkbox);
-            EditText userName = (EditText) findViewById(R.id.gittyreporter_login_username);
-            EditText userPassword = (EditText) findViewById(R.id.gittyreporter_login_password);
+            final AppCompatCheckBox githubCheckbox = findViewById(R.id.gittyreporter_github_checkbox);
+            EditText userName = findViewById(R.id.gittyreporter_login_username);
+            EditText userPassword = findViewById(R.id.gittyreporter_login_password);
 
             if (!githubCheckbox.isChecked()){
                 if (validateGitHubLogin()){
@@ -136,13 +120,13 @@ public abstract class GittyReporter extends AppCompatActivity {
     }
 
     private boolean validateGitHubLogin(){
-        EditText userName = (EditText) findViewById(R.id.gittyreporter_login_username);
-        EditText userPassword = (EditText) findViewById(R.id.gittyreporter_login_password);
+        EditText userName = findViewById(R.id.gittyreporter_login_username);
+        EditText userPassword = findViewById(R.id.gittyreporter_login_password);
 
         boolean hasErrors = false;
 
         if (TextUtils.isEmpty(userName.getText())){
-            setError(userName, "Please enter a vaild username");
+            setError(userName, getString(R.string.error_username_enterValidUsername));
 
             hasErrors = true;
         } else {
@@ -150,7 +134,7 @@ public abstract class GittyReporter extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(userPassword.getText())) {
-            setError(userPassword, "Please enter a vaild password");
+            setError(userPassword, getString(R.string.error_password_enterValidPassword));
 
             hasErrors = true;
         } else {
@@ -161,13 +145,13 @@ public abstract class GittyReporter extends AppCompatActivity {
     }
 
     private boolean validateBugReport(){
-        bugTitleEditText = (EditText) findViewById(R.id.gittyreporter_bug_title);
-        bugDescriptionEditText = (EditText) findViewById(R.id.gittyreporter_bug_description);
+        bugTitleEditText = findViewById(R.id.gittyreporter_bug_title);
+        bugDescriptionEditText = findViewById(R.id.gittyreporter_bug_description);
 
         boolean hasErrors = false;
 
         if (TextUtils.isEmpty(bugTitleEditText.getText())) {
-            setError(bugTitleEditText, "Please enter a valid title");
+            setError(bugTitleEditText, getString(R.string.error_title_enterTitle));
 
             hasErrors = true;
         } else {
@@ -175,7 +159,7 @@ public abstract class GittyReporter extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(bugDescriptionEditText.getText())) {
-            setError(bugDescriptionEditText, "Please describe your issue");
+            setError(bugDescriptionEditText, getString(R.string.error_description_enterDescription));
 
             hasErrors = true;
         } else {
@@ -196,19 +180,19 @@ public abstract class GittyReporter extends AppCompatActivity {
     }
 
     private void removeError(TextView view) {
-        TextInputLayout parent = (TextInputLayout) view.getParent();
+        //TextInputLayout parent = (TextInputLayout) view.getParent();
 
-        parent.setError(null);
+        //parent.setError(null);
     }
 
     private void sendBugReport(){
-        bugTitleEditText = (EditText) findViewById(R.id.gittyreporter_bug_title);
-        bugDescriptionEditText = (EditText) findViewById(R.id.gittyreporter_bug_description);
+        bugTitleEditText = findViewById(R.id.gittyreporter_bug_title);
+        bugDescriptionEditText = findViewById(R.id.gittyreporter_bug_description);
         final String bugTitle = bugTitleEditText.getText().toString();
         final String bugDescription = bugDescriptionEditText.getText().toString();
 
         if (extraInfo == null) {
-            this.extraInfo = "Nothing to show.";
+            this.extraInfo = getString(R.string.nothing_to_show);
         } else if (!enableGitHubLogin){
             this.gitUser = "";
             this.gitPassword = "";
@@ -233,6 +217,7 @@ public abstract class GittyReporter extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void animateLoginPage(){
         final View colorView = findViewById(R.id.gittyreporter_material_ripple);
         final View loginView = findViewById(R.id.gittyreporter_loginFrame);
@@ -316,6 +301,7 @@ public abstract class GittyReporter extends AppCompatActivity {
         rippleAnim.start();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void showDoneAnimation(){
         final View doneView = findViewById(R.id.gittyreporter_doneFrame);
         final View doneImage = findViewById(R.id.gittyreporter_done_image);
@@ -419,42 +405,49 @@ public abstract class GittyReporter extends AppCompatActivity {
         deviceInfoEditText.setEnabled(canEdit);
     }
 
+    @SuppressWarnings("unused")
     public void setFabColor1(int colorNormal, int colorPressed, int colorRipple){
-        final com.melnykov.fab.FloatingActionButton nextFab = (com.melnykov.fab.FloatingActionButton) findViewById(R.id.gittyreporter_fab_next);
+        final com.melnykov.fab.FloatingActionButton nextFab = findViewById(R.id.gittyreporter_fab_next);
         nextFab.setColorNormal(colorNormal);
         nextFab.setColorPressed(colorPressed);
         nextFab.setColorRipple(colorRipple);
     }
 
+    @SuppressWarnings("unused")
     public void setFabColor2(int colorNormal, int colorPressed, int colorRipple){
-        final com.melnykov.fab.FloatingActionButton sendFab = (com.melnykov.fab.FloatingActionButton) findViewById(R.id.gittyreporter_fab_send);
+        final com.melnykov.fab.FloatingActionButton sendFab = findViewById(R.id.gittyreporter_fab_send);
         sendFab.setColorNormal(colorNormal);
         sendFab.setColorPressed(colorPressed);
         sendFab.setColorRipple(colorRipple);
     }
 
+    @SuppressWarnings("unused")
     public void setBackgroundColor1(int color){
-        FrameLayout view = (FrameLayout) findViewById(R.id.gittyreporter_reportFrame);
+        FrameLayout view = findViewById(R.id.gittyreporter_reportFrame);
         view.setBackgroundColor(color);
     }
 
+    @SuppressWarnings("unused")
     public void setBackgroundColor2(int color){
-        FrameLayout view = (FrameLayout) findViewById(R.id.gittyreporter_loginFrame);
+        FrameLayout view = findViewById(R.id.gittyreporter_loginFrame);
         view.setBackgroundColor(color);
     }
 
+    @SuppressWarnings("unused")
     public void setRippleColor(int color){
-        FrameLayout ripple = (FrameLayout) findViewById(R.id.gittyreporter_material_ripple);
+        FrameLayout ripple = findViewById(R.id.gittyreporter_material_ripple);
         ripple.setBackgroundColor(color);
     }
 
+    @SuppressWarnings("unused")
     public void setTitleColor1(int color){
-        TextView view = (TextView) findViewById(R.id.gittyreporter_title_1);
+        TextView view = findViewById(R.id.gittyreporter_title_1);
         view.setTextColor(color);
     }
 
+    @SuppressWarnings("unused")
     public void setTitleColor2(int color){
-        TextView view = (TextView) findViewById(R.id.gittyreporter_title_2);
+        TextView view = findViewById(R.id.gittyreporter_title_2);
         view.setTextColor(color);
 
     }
@@ -474,11 +467,13 @@ public abstract class GittyReporter extends AppCompatActivity {
         }
     }
 
+    @SuppressWarnings("HardCodedStringLiteral")
     public void openGitHubRegisterPage(View v){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/join"));
         startActivity(browserIntent);
     }
 
+    @SuppressWarnings("HardCodedStringLiteral")
     private void getDeviceInfo() {
         try {
             String s = "Debug info:";
