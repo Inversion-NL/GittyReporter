@@ -1,5 +1,4 @@
 <resources>
-    <string name="gittyreporter_app_name">Gitty Reporter</string>
     <string name="gittyreporter_title">Title</string>
     <string name="gittyreporter_headline1">Feedback</string>
     <string name="gittyreporter_headline2">Log In on GitHub</string>
@@ -20,4 +19,5 @@
     <string name="dialog_progress_pleaseWait_title">Please wait</string>
     <string name="dialog_progress_pleaseWait_message">Uploading report on GitHub</string>
     <string name="issue_extraInfo">Extra Info:</string>
+    <string name="image_done">Image done</string>
 </resources>

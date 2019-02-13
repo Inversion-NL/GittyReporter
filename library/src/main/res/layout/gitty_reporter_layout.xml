@@ -1,9 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
     <FrameLayout
         android:id="@+id/gittyreporter_reportFrame"
         android:focusable="true" android:focusableInTouchMode="true"
@@ -20,7 +18,7 @@
         android:paddingRight="@dimen/gittyreporter_card_padding">
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="0dp"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/gittyreporter_title_1"
@@ -29,10 +27,12 @@
                 android:text="@string/gittyreporter_headline1"
                 android:gravity="bottom"
                 android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:paddingBottom="16dp"
                 android:textColor="@color/gittyreporter_text"
-                android:textSize="@dimen/abc_text_size_display_1_material"/>
-            <android.support.v7.widget.CardView
+                android:textSize="@dimen/abc_text_size_display_1_material"
+                android:paddingStart="16dp" />
+            <androidx.cardview.widget.CardView
                 android:id="@+id/gittyreporter_card_view"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
@@ -43,7 +43,7 @@
                     android:paddingTop="32dp"
                     android:paddingRight="16dp"
                     android:paddingLeft="16dp">
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="32dp">
@@ -54,9 +54,11 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/abc_text_size_body_2_material"
-                            android:hint="@string/gittyreporter_title"/>
-                    </android.support.design.widget.TextInputLayout>
-                    <android.support.design.widget.TextInputLayout
+                            android:hint="@string/gittyreporter_title"
+                            android:importantForAutofill="no"
+                            tools:targetApi="o" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="32dp">
@@ -65,9 +67,12 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/abc_text_size_body_2_material"
-                            android:hint="@string/gittyreporter_description"/>
-                    </android.support.design.widget.TextInputLayout>
-                    <android.support.design.widget.TextInputLayout
+                            android:hint="@string/gittyreporter_description"
+                            android:importantForAutofill="no"
+                            tools:targetApi="o"
+                            android:inputType="textAutoCorrect|textCapSentences" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="32dp">
@@ -77,10 +82,13 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/abc_text_size_body_2_material"
                             android:enabled="false"
-                            android:hint="@string/gittyreporter_device_info"/>
-                    </android.support.design.widget.TextInputLayout>
+                            android:hint="@string/gittyreporter_device_info"
+                            android:importantForAutofill="no"
+                            tools:targetApi="o"
+                            android:inputType="textAutoCorrect|textCapSentences" />
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
     </FrameLayout>
@@ -100,7 +108,7 @@
             android:paddingRight="@dimen/gittyreporter_card_padding">
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="0dp"
                 android:orientation="vertical">
                 <TextView
                     android:id= "@+id/gittyreporter_title_2"
@@ -109,10 +117,12 @@
                     android:text="@string/gittyreporter_headline2"
                     android:gravity="bottom"
                     android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
                     android:paddingBottom="16dp"
                     android:textColor="@color/gittyreporter_text"
-                    android:textSize="@dimen/abc_text_size_display_1_material"/>
-                <android.support.v7.widget.CardView
+                    android:textSize="@dimen/abc_text_size_display_1_material"
+                    android:paddingStart="16dp" />
+                <androidx.cardview.widget.CardView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
                     <LinearLayout
@@ -122,7 +132,7 @@
                         android:paddingTop="32dp"
                         android:paddingRight="16dp"
                         android:paddingLeft="16dp">
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:paddingBottom="32dp">
@@ -132,9 +142,12 @@
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:textSize="@dimen/abc_text_size_body_2_material"
-                                android:hint="@string/gittyreporter_login_username"/>
-                        </android.support.design.widget.TextInputLayout>
-                        <android.support.design.widget.TextInputLayout
+                                android:hint="@string/gittyreporter_login_username"
+                                android:importantForAutofill="no"
+                                tools:targetApi="o"
+                                android:inputType="textAutoCorrect|textCapSentences" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:paddingBottom="32dp">
@@ -143,15 +156,18 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/abc_text_size_body_2_material"
-                                android:hint="@string/gittyreporter_login_password"/>
-                        </android.support.design.widget.TextInputLayout>
-                        <android.support.v7.widget.AppCompatCheckBox
+                                android:hint="@string/gittyreporter_login_password"
+                                android:importantForAutofill="no"
+                                tools:targetApi="o"
+                                android:inputType="textAutoCorrect|textCapSentences" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/gittyreporter_github_checkbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
                             android:text="@string/gittyreporter_login_skip"/>
-                        <android.support.v7.widget.AppCompatButton
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/gittyreporter_github_register"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -160,7 +176,7 @@
                             android:onClick="openGitHubRegisterPage"
                             android:text="@string/gittyreporter_login_skip"/>
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
         </ScrollView>
     </FrameLayout>
@@ -176,7 +192,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/gittyreporter_ic_done_white_256dp_1x"/>
+            android:src="@drawable/gittyreporter_ic_done_white_256dp_1x"
+            android:contentDescription="@string/image_done" />
     </FrameLayout>
     <FrameLayout
         android:id="@+id/gittyreporter_material_ripple"
@@ -194,7 +211,7 @@
             android:id="@+id/gittyreporter_fab_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:onClick="showLoginPage"
             android:src="@drawable/gittyreporter_ic_arrow_forward_black_18dp"
@@ -212,7 +229,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:onClick="reportIssue"
             android:src="@drawable/gittyreporter_ic_send_white_18dp"

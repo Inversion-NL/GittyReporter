@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.v7.app.AlertDialog;
 
 import org.eclipse.egit.github.core.Issue;
 import org.eclipse.egit.github.core.client.GitHubClient;
@@ -14,10 +13,12 @@ import org.eclipse.egit.github.core.service.IssueService;
 
 import java.io.IOException;
 
-public class reportIssue extends AsyncTask<String, Integer, String> {
+import androidx.appcompat.app.AlertDialog;
 
-    private Context mContext;
-    private GittyReporter mActivity;
+class reportIssue extends AsyncTask<String, Integer, String> {
+
+    private final Context mContext;
+    private final GittyReporter mActivity;
     private ProgressDialog progress;
 
     reportIssue(Context context, GittyReporter activity){
