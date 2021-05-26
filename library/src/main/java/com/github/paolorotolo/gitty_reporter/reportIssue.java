@@ -7,13 +7,13 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import androidx.appcompat.app.AlertDialog;
+
 import org.eclipse.egit.github.core.Issue;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.IssueService;
 
 import java.io.IOException;
-
-import androidx.appcompat.app.AlertDialog;
 
 class reportIssue extends AsyncTask<String, Integer, String> {
 
@@ -77,7 +77,6 @@ class reportIssue extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        //noinspection HardCodedStringLiteral
         switch (result) {
             //noinspection HardCodedStringLiteral
             case "ok":
